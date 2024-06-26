@@ -8,8 +8,9 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 
-    //maven { url 'https://jitpack.io' }
-
+    maven {
+        url = uri("https://jitpack.io")
+    }
 
     maven {
         // change to point to your repo, e.g. http://my.org/repo
@@ -17,10 +18,6 @@ repositories {
     }
 
     mavenLocal()
-/*
-    flatDir {
-        dirs("E:/kotlin/repo/jcsp")
-    }*/
 }
 
 dependencies {
@@ -42,11 +39,14 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.13")
     implementation("ch.qos.logback:logback-classic:1.5.6")
 
-
-    //implementation("org.slf4j':slf4j-api:1.7.+")
-    //implementation("ch.qos.logback:logback-classic:1.1.11")
+    implementation("com.thoughtworks.xstream:xstream:1.4.20")
+    implementation("org.jasypt:jasypt:1.9.3")
 
     implementation("org.cryptacular:cryptacular:1.2.6")
+
+    implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
+
+    implementation("com.github.dbarabo:dbjdb:0.9.10")
 
 
     testImplementation(kotlin("test"))

@@ -1,4 +1,4 @@
-package org.example.ru.barabo.cyptopro.ssl
+package org.example.ru.barabo.cryptopro.ssl
 
 import org.slf4j.LoggerFactory
 import ru.CryptoPro.Crypto.CryptoProvider
@@ -27,11 +27,7 @@ object CryptoTls {
         // Задание для него требуемого SSLSocketFactory.
         connection.setSSLSocketFactory(factory)
 
-        // Вывод на экран содержимого запрошенной страницы.
 
-        // printStream(connection.inputStream);
-
-        // Разрыв соединения.
         //connection.disconnect()
 
         return connection
