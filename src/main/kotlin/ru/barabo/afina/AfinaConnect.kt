@@ -1,6 +1,6 @@
-package org.example.ru.barabo.afina
+package ru.barabo.afina
 
-import org.example.ru.barabo.crypto.MasterKey
+import ru.barabo.crypto.MasterKey
 import ru.barabo.db.DbConnection
 import ru.barabo.db.DbSetting
 import ru.barabo.db.Query
@@ -19,7 +19,12 @@ object AfinaConnect : DbConnection(
         dbSetting.url = if(isTest) "jdbc:oracle:thin:@192.168.0.180:1521:AFINA" else MasterKey.value("AFINA_URL")
         return checkBase()
     }
+
+    fun isTest(): Boolean = (dbSetting.url != MasterKey.value("AFINA_URL") )
+
 }
+
+fun String.ifTest(testPath: String) = if(AfinaConnect.isTest()) testPath else this
 
 object AfinaQuery : Query(AfinaConnect)
 

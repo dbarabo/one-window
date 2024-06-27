@@ -1,9 +1,9 @@
-package org.example.ru.barabo.onewin.xml.request
+package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
 import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter
-import org.example.ru.barabo.onewin.entity.ClientRequest
+import ru.barabo.onewin.entity.ClientRequest
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

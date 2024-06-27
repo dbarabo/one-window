@@ -1,4 +1,4 @@
-package org.example.ru.barabo.cryptopro.ssl
+package ru.barabo.cryptopro.ssl
 
 import org.slf4j.LoggerFactory
 import ru.CryptoPro.Crypto.CryptoProvider
@@ -16,17 +16,16 @@ object CryptoTls {
 
     private val logger = LoggerFactory.getLogger(CryptoTls::class.java)
 
-    fun tlsConnection(): HttpsURLConnection {
+    fun tlsConnection(postfixUrl: String): HttpsURLConnection {
         val context = sslContext()
 
         val factory: SSLSocketFactory = context!!.socketFactory
 
-        val url = URL(URL_PATH)
+        val url = URL(URL_PATH + postfixUrl)
         val connection: HttpsURLConnection = url.openConnection() as HttpsURLConnection
 
         // Задание для него требуемого SSLSocketFactory.
         connection.setSSLSocketFactory(factory)
-
 
         //connection.disconnect()
 

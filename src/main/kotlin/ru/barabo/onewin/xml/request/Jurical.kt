@@ -1,4 +1,4 @@
-package org.example.ru.barabo.onewin.xml.request
+package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import java.util.*
@@ -7,12 +7,12 @@ import java.util.*
 class Jurical {
 
     @XStreamAlias("ИНН")
-    var inn: String = ""
+    var inn: StringElement? = null
 
     @XStreamAlias("ОГРН")
-    var ogrn: String = ""
+    var ogrn: StringElement? = null
 
-    @XStreamAlias("КодыВидаПользователя")
+    @XStreamAlias("КодВидаПользователя")
     var codeTypeUser: String? = null
 
     @XStreamAlias("ПризнакРегистрацииРФ")
@@ -26,14 +26,14 @@ class Jurical {
 }
 
 val ourBankInnOnly: Jurical = Jurical().apply {
-    inn =  "2540015598"
-    ogrn = "1022500001325"
+    inn =  StringElement("2540015598")
+    ogrn = StringElement("1022500001325")
     codeTypeUser = null
 }
 
 val ourBank: Jurical = Jurical().apply {
-    inn = ourBankInnOnly.inn
-    ogrn = ourBankInnOnly.ogrn
+    inn = StringElement(ourBankInnOnly.inn!!.value)
+    ogrn = StringElement(ourBankInnOnly.ogrn!!.value)
     codeTypeUser = "2" // bank
     isRegisterInRF = "1"
     fullName = StringElement("Общество с ограниченной ответственностью \"Примтеркомбанк\"".uppercase(Locale.getDefault()))
@@ -41,7 +41,7 @@ val ourBank: Jurical = Jurical().apply {
 }
 
 val ourBankFullNameOnly: Jurical = Jurical().apply {
-    inn = ourBankInnOnly.inn
-    ogrn = ourBankInnOnly.ogrn
+    inn = StringElement(ourBankInnOnly.inn!!.value)
+    ogrn = StringElement(ourBankInnOnly.ogrn!!.value)
     fullName = StringElement(ourBank.fullName!!.value)
 }

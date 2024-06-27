@@ -1,4 +1,4 @@
-package org.example.ru.barabo.onewin.xml.request
+package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import java.time.LocalDate

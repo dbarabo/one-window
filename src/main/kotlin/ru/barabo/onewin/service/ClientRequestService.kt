@@ -1,11 +1,11 @@
-package org.example.ru.barabo.onewin.service
+package ru.barabo.onewin.service
 
-import org.example.ru.barabo.afina.AfinaOrm
-import org.example.ru.barabo.onewin.entity.ClientRequest
-import org.example.ru.barabo.onewin.xml.request.RequestXml
-import org.example.ru.barabo.onewin.xml.request.XmlBuilder
+import ru.barabo.afina.AfinaOrm
 import ru.barabo.db.annotation.ParamsSelect
 import ru.barabo.db.service.StoreFilterService
+import ru.barabo.onewin.entity.ClientRequest
+import ru.barabo.onewin.xml.request.RequestXml
+import ru.barabo.onewin.xml.request.XmlBuilder
 
 class ClientRequestService : StoreFilterService<ClientRequest>(AfinaOrm, ClientRequest::class.java), ParamsSelect {
 

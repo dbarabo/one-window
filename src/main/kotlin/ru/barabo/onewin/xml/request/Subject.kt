@@ -1,4 +1,4 @@
-package org.example.ru.barabo.onewin.xml.request
+package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 
@@ -9,16 +9,16 @@ class Subject() {
 
         this.fio = fio
 
-        this.passport = passport
+        this.birthDay = StringElement(birthDay)
 
-        this.birthDay = birthDay
+        this.passport = passport
     }
 
     @XStreamAlias("ФИО")
     var fio: Fio? = null
 
     @XStreamAlias("ДатаРождения")
-    var birthDay: String? = null
+    var birthDay: StringElement? = null
 
     @XStreamAlias("ДокументЛичности")
     var passport: Passport? = null

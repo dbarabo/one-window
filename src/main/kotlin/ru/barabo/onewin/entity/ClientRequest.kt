@@ -1,7 +1,7 @@
-package org.example.ru.barabo.onewin.entity
+package ru.barabo.onewin.entity
 
-import org.example.ru.barabo.onewin.xml.request.Fio
-import org.example.ru.barabo.onewin.xml.request.Passport
+import ru.barabo.onewin.xml.request.Fio
+import ru.barabo.onewin.xml.request.Passport
 import ru.barabo.db.annotation.ColumnName
 import ru.barabo.db.annotation.ColumnType
 import ru.barabo.db.annotation.SelectQuery

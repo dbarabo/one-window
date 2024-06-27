@@ -1,4 +1,4 @@
-package org.example.ru.barabo.crypto
+package ru.barabo.crypto
 
 import java.io.File
 

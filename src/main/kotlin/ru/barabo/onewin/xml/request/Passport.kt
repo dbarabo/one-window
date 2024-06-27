@@ -1,4 +1,4 @@
-package org.example.ru.barabo.onewin.xml.request
+package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import java.time.LocalDate
@@ -8,24 +8,24 @@ class Passport() {
 
     constructor(line: String, number: String, dateOut: LocalDate) : this() {
 
-        this.line = line
-        this.number = number
+        this.line = StringElement(line)
+        this.number = StringElement(number)
 
-        this.dateOut = dateOut.toXmlString()
+        this.dateOut = StringElement(dateOut.toXmlString() )
     }
 
     @XStreamAlias("КодДУЛ")
     var code: String = "21"
 
     @XStreamAlias("Серия")
-    var line: String = ""
+    var line: StringElement? = null
 
     @XStreamAlias("Номер")
-    var number: String = ""
+    var number: StringElement? = null
 
     @XStreamAlias("ДатаВыдачи")
-    var dateOut: String = ""
+    var dateOut: StringElement? = null
 
     @XStreamAlias("Гражданство")
-    var citizenship: String = "643"
+    var citizenship: StringElement = StringElement("643")
 }

@@ -1,7 +1,7 @@
-package org.example.ru.barabo.onewin.xml.request
+package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
-import org.example.ru.barabo.onewin.entity.ClientRequest
+import ru.barabo.onewin.entity.ClientRequest
 import java.util.*
 
 @XStreamAlias("ЗапросСведенийОПлатежах")
@@ -19,7 +19,7 @@ class RequestXml() {
     var uuid: String = UUID.randomUUID().toString()
 
     @XStreamAlias("ТипЗапроса")
-    var typeRequest: String = "1" // 2 - режим одного окна
+    var typeRequest: String = "2" // 2 - режим одного окна 1-НБКИ
 
     @XStreamAlias("Абонент")
     var ourSubscriber: Subscriber = Subscriber()
