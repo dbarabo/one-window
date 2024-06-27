@@ -8,6 +8,8 @@ import ru.barabo.onewin.xml.request.XmlBuilder
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.onewin.http.RESPONSE_FILE_NAME
+import ru.barabo.onewin.http.xNbkiTodayUncrypto
+import ru.barabo.onewin.xml.result.ResultXml
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
@@ -34,9 +36,27 @@ class CryptoTest {
         logger.error("$responseFile")
     }
 
+    //@Test
+    fun getAnswerTest() {
+        AfinaConnect.init(isTest = false)
 
+        HttpClient.getAnswer("fe742c45-8021-4be8-a667-78cddd484e92")
+    }
 
-    @Test
+    //@Test
+    fun resultLoadTest() {
+        AfinaConnect.init(isTest = false)
+
+        val sendFileData = File("${xNbkiTodayUncrypto()}/response-1719463252578.xml")
+
+        val result = XmlBuilder.loadFromFile<ResultXml>(sendFileData)
+
+        logger.error("result=$result")
+
+        logger.error("response=${result.responseId?.value}")
+    }
+
+    //@Test
     fun sendRequestTestXml() {
 
         AfinaConnect.init(isTest = false)

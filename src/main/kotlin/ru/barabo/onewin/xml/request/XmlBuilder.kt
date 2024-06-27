@@ -2,7 +2,10 @@ package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import org.slf4j.LoggerFactory
+import ru.barabo.onewin.xml.result.ResponseId
+import ru.barabo.onewin.xml.result.ResultXml
 import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -24,6 +27,11 @@ object XmlBuilder {
         useAttributeFor(BigInteger::class.java)
         useAttributeFor(Boolean::class.java)
         useAttributeFor(Integer::class.java)
+
+        processAnnotations(ResultXml::class.java)
+        processAnnotations(ResponseId::class.java)
+
+        addPermission(AnyTypePermission.ANY)
     }
 
     fun xmlToString(xmlObject: Any): String = xstream.toXML(xmlObject)
@@ -35,6 +43,11 @@ object XmlBuilder {
         file.writeText(xml, Charset.forName(CHARSET))
 
         return xml
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> loadFromFile(file: File): T {
+        return xstream.fromXML(file) as T
     }
 }
 
