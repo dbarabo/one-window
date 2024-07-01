@@ -29,6 +29,21 @@ object XmlBuilder {
         useAttributeFor(Boolean::class.java)
         useAttributeFor(Integer::class.java)
 
+
+        processAnnotations(Agreement::class.java)
+        processAnnotations(Pact::class.java)
+        processAnnotations(Issued::class.java)
+        processAnnotations(Target::class.java)
+        processAnnotations(Fio::class.java)
+        processAnnotations(Jurical::class.java)
+        processAnnotations(Passport::class.java)
+        processAnnotations(RequestInfo::class.java)
+        processAnnotations(RequestXml::class.java)
+        processAnnotations(Source::class.java)
+        processAnnotations(StringElement::class.java)
+        processAnnotations(Subject::class.java)
+        processAnnotations(Subscriber::class.java)
+
         processAnnotations(ResultXml::class.java)
         processAnnotations(ResponseId::class.java)
 

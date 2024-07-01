@@ -37,7 +37,7 @@ class CryptoTest {
         logger.error("$responseFile")
     }
 
-    @Test
+    //@Test
     fun payInfoLoaderTest() {
         val normResponse = File("X:\\НБКИ\\2024\\06\\27\\UNCRYPTO/answer-fe742c45-8021-4be8-a667-78cddd484e92.xml")
 
@@ -57,7 +57,7 @@ class CryptoTest {
     fun resultLoadTest() {
         AfinaConnect.init(isTest = false)
 
-        val sendFileData = File("${xNbkiTodayUncrypto()}/response-1719463252578.xml")
+        val sendFileData = File("X:\\НБКИ\\2024\\06\\27\\UNCRYPTO/response-1719463252578.xml")
 
         val result = XmlBuilder.loadFromFile<ResultXml>(sendFileData)
 
@@ -82,7 +82,7 @@ class CryptoTest {
 
         val clientRequestService = ClientRequestService()
 
-        logger.error(clientRequestService.requestByClientId(87574360L/*486569L*/, false) )
+        logger.error(clientRequestService.requestByClientId(87574360L/*486569L*/, true) )
 
         //file.writeText(dataFile, Charset.forName("CP1251"))
     }
