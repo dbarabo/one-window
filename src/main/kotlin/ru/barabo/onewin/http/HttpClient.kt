@@ -8,6 +8,8 @@ import ru.barabo.afina.ifTest
 import ru.barabo.cmd.Cmd
 import ru.barabo.cryptopro.ssl.CryptoTls
 import ru.barabo.onewin.service.ClientRequestService
+import ru.barabo.onewin.xml.request.XmlBuilder
+import ru.barabo.onewin.xml.result.ResultXml
 import java.io.DataOutputStream
 import java.io.File
 import java.io.IOException
@@ -19,6 +21,23 @@ object HttpClient {
 
     private val logger = LoggerFactory.getLogger(HttpClient::class.java)
 
+    fun requestAndAnswer(idClient: Long, isOneWinRequest: Boolean) {
+
+        val fileResult = sendRequest(idClient, isOneWinRequest)
+
+        val resultTicket: ResultXml? = getResultTicket(fileResult)
+
+        if(resultTicket == null) {
+
+            parseFullResponse(fileResult)
+            return
+        }
+
+        val uuiTicket = resultTicket.responseId!!.value!!
+
+        val responseFile = getAnswer(uuiTicket)
+    }
+
     fun getAnswer(uuid: String): File {
 
         val signAnswerFile = getAnswerSig(uuid)
@@ -29,6 +48,21 @@ object HttpClient {
         unsignXml(signAnswerFile, responseFile)
 
         return responseFile
+    }
+
+    private fun parseFullResponse(fileResponse: File) {
+        // TODO
+    }
+
+    private fun getResultTicket(fileResult: File): ResultXml? {
+
+        return try {
+            XmlBuilder.loadFromFile<ResultXml>(fileResult)
+        }catch (e: Exception) {
+            logger.error("getResultTicket", e)
+
+            null
+        }
     }
 
     private fun getAnswerSig(uuid: String): File {
@@ -60,9 +94,9 @@ object HttpClient {
         return responseFile
     }
 
-    fun sendRequest(idClient: Long): File {
+    fun sendRequest(idClient: Long, isOneWinRequest: Boolean): File {
 
-        val signFile = prepareRequest(idClient)
+        val signFile = prepareRequest(idClient, isOneWinRequest)
 
         val signResponseFile = sendRequest(signFile)
 
@@ -110,10 +144,10 @@ object HttpClient {
         return responseFile
     }
 
-    private fun prepareRequest(idClient: Long): File {
+    private fun prepareRequest(idClient: Long, isOneWinRequest: Boolean): File {
         val clientRequestService = ClientRequestService()
 
-        val requestXml = clientRequestService.requestByClientId(idClient)
+        val requestXml = clientRequestService.requestByClientId(idClient, isOneWinRequest)
 
         return signXml(requestXml, XSD_SCHEMA_REQUEST)
     }

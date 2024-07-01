@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
 import com.thoughtworks.xstream.security.AnyTypePermission
 import org.slf4j.LoggerFactory
+import ru.barabo.onewin.xml.answer.*
 import ru.barabo.onewin.xml.result.ResponseId
 import ru.barabo.onewin.xml.result.ResultXml
 import java.io.File
@@ -30,6 +31,16 @@ object XmlBuilder {
 
         processAnnotations(ResultXml::class.java)
         processAnnotations(ResponseId::class.java)
+
+        processAnnotations(PayInfoXml::class.java)
+        processAnnotations(BkiForLoan::class.java)
+        processAnnotations(CommitmentAbsent::class.java)
+        processAnnotations(Commitments::class.java)
+        processAnnotations(ErrorRequest::class.java)
+        processAnnotations(KBkiSource::class.java)
+        processAnnotations(Loan::class.java)
+        processAnnotations(PayMonthly::class.java)
+        processAnnotations(SubjectNotFound::class.java)
 
         addPermission(AnyTypePermission.ANY)
     }

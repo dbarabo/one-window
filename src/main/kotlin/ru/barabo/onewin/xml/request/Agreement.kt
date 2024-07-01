@@ -37,7 +37,7 @@ class Agreement() {
     var pact: Pact? = null
 }
 
-@XStreamAlias("Договор")
+@XStreamAlias("Договор-Agree")
 class Pact() {
 
     constructor (datePact: LocalDate) : this() {

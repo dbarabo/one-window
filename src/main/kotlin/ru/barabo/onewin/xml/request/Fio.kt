@@ -20,4 +20,8 @@ class Fio() {
 
     @XStreamAlias("Отчество")
     var papaName: StringElement? = null
+
+    override fun toString(): String {
+        return "Фамилия=$lastName Имя=$firstName Отчество=$papaName"
+    }
 }

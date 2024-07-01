@@ -28,4 +28,8 @@ class Passport() {
 
     @XStreamAlias("Гражданство")
     var citizenship: StringElement = StringElement("643")
+
+    override fun toString(): String {
+        return "Серия=$line Номер=$number ДатаВыдачи=$dateOut"
+    }
 }

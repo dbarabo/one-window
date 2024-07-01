@@ -22,4 +22,8 @@ class Subject() {
 
     @XStreamAlias("ДокументЛичности")
     var passport: Passport? = null
+
+    override fun toString(): String {
+        return "ФИО=$fio ДатаРождения=$birthDay ДокументЛичности=$passport"
+    }
 }
