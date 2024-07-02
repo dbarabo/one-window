@@ -24,4 +24,7 @@ class Fio() {
     override fun toString(): String {
         return "Фамилия=$lastName Имя=$firstName Отчество=$papaName"
     }
+
+    val fullName: String
+        get() = "${lastName?.value?:""} ${firstName?.value?:""} ${papaName?.value?:""}".trim()
 }

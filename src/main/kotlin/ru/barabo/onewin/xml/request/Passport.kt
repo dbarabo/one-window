@@ -32,4 +32,11 @@ class Passport() {
     override fun toString(): String {
         return "Серия=$line Номер=$number ДатаВыдачи=$dateOut"
     }
+
+    val lineAndNumber: String
+        get() = "${line?.value?:""} ${number?.value?:""}"
+
+    val dateOutLocal: LocalDate?
+        get() = dateOut?.value?.xmlDateToLocal()
+
 }

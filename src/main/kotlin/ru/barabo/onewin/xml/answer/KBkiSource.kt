@@ -1,6 +1,8 @@
 package ru.barabo.onewin.xml.answer
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
+import ru.barabo.onewin.xml.request.xmlDateTimeToLocal
+import java.time.LocalDateTime
 
 @XStreamAlias("КБКИ")
 class KBkiSource() {
@@ -29,4 +31,7 @@ class KBkiSource() {
     override fun toString(): String {
         return "ОГРН=$ogrn onDateTimeState=$onDateTimeState uuidResponse=$uuidResponse СубъектНеНайден=$subjectNotFound Обязательства=$commitments"
     }
+
+    val onDateStateDateTime: LocalDateTime
+        get() = onDateTimeState.xmlDateTimeToLocal()
 }

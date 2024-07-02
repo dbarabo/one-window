@@ -1,15 +1,15 @@
 package ru.barabo.test
 
-import ru.barabo.afina.AfinaConnect
-import ru.barabo.onewin.http.HttpClient
-import ru.barabo.onewin.service.ClientRequestService
-import ru.barabo.onewin.xml.request.RequestXml
-import ru.barabo.onewin.xml.request.XmlBuilder
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.afina.AfinaConnect
+import ru.barabo.onewin.http.HttpClient
 import ru.barabo.onewin.http.RESPONSE_FILE_NAME
-import ru.barabo.onewin.http.xNbkiTodayUncrypto
+import ru.barabo.onewin.service.AnswerService
+import ru.barabo.onewin.service.ClientRequestService
 import ru.barabo.onewin.xml.answer.PayInfoXml
+import ru.barabo.onewin.xml.request.RequestXml
+import ru.barabo.onewin.xml.request.XmlBuilder
 import ru.barabo.onewin.xml.result.ResultXml
 import java.io.BufferedReader
 import java.io.File
@@ -39,11 +39,15 @@ class CryptoTest {
 
     //@Test
     fun payInfoLoaderTest() {
+        AfinaConnect.init(isTest = false)
+
         val normResponse = File("X:\\НБКИ\\2024\\06\\27\\UNCRYPTO/answer-fe742c45-8021-4be8-a667-78cddd484e92.xml")
 
         val pay: PayInfoXml = XmlBuilder.loadFromFile<PayInfoXml>(normResponse)
 
         logger.error("pay=$pay")
+
+        AnswerService.saveAnswer(486569L, pay)
     }
 
     //@Test

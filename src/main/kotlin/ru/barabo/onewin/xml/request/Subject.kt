@@ -1,6 +1,7 @@
 package ru.barabo.onewin.xml.request
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
+import java.time.LocalDate
 
 @XStreamAlias("Субъект")
 class Subject() {
@@ -26,4 +27,6 @@ class Subject() {
     override fun toString(): String {
         return "ФИО=$fio ДатаРождения=$birthDay ДокументЛичности=$passport"
     }
+
+    val birthDayLocal: LocalDate? = birthDay?.value?.xmlDateToLocal()
 }
