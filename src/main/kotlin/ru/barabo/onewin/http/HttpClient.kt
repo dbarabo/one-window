@@ -4,10 +4,13 @@ import ru.barabo.crypto.XSD_SCHEMA_REQUEST
 import ru.barabo.crypto.signXml
 import ru.barabo.crypto.unsignXml
 import org.slf4j.LoggerFactory
+import ru.barabo.afina.AfinaConnect
 import ru.barabo.afina.ifTest
 import ru.barabo.cmd.Cmd
 import ru.barabo.cryptopro.ssl.CryptoTls
+import ru.barabo.onewin.service.AnswerService
 import ru.barabo.onewin.service.ClientRequestService
+import ru.barabo.onewin.xml.answer.PayInfoXml
 import ru.barabo.onewin.xml.request.XmlBuilder
 import ru.barabo.onewin.xml.result.ResultXml
 import java.io.DataOutputStream
@@ -21,7 +24,20 @@ object HttpClient {
 
     private val logger = LoggerFactory.getLogger(HttpClient::class.java)
 
+    private lateinit var clientRequestService: ClientRequestService
+
+    private fun clientRequest(): ClientRequestService {
+        if(!(::clientRequestService.isInitialized)) {
+            AfinaConnect.init(isTest = false)
+            clientRequestService = ClientRequestService()
+        }
+
+        return clientRequestService
+    }
+
     fun requestAndAnswer(idClient: Long, isOneWinRequest: Boolean) {
+
+        clientRequest().checkClient(idClient)
 
         val fileResult = sendRequest(idClient, isOneWinRequest)
 
@@ -35,8 +51,23 @@ object HttpClient {
 
         val uuiTicket = resultTicket.responseId!!.value!!
 
-        val responseFile = getAnswer(uuiTicket)
+        val answerFile = getAnswer(uuiTicket)
+
+        saveAnswer(idClient, answerFile)
     }
+
+    private fun saveAnswer(idClient: Long, answerFile: File) {
+
+        val pay: PayInfoXml = XmlBuilder.loadFromFile(answerFile)
+
+        AnswerService.saveAnswer(idClient, pay)
+    }
+
+
+    private fun checkClient(idClient: Long) {
+        clientRequest().checkClient(idClient)
+    }
+
 
     fun getAnswer(uuid: String): File {
 
@@ -145,9 +176,8 @@ object HttpClient {
     }
 
     private fun prepareRequest(idClient: Long, isOneWinRequest: Boolean): File {
-        val clientRequestService = ClientRequestService()
 
-        val requestXml = clientRequestService.requestByClientId(idClient, isOneWinRequest)
+        val requestXml = clientRequest().requestByClientId(idClient, isOneWinRequest)
 
         return signXml(requestXml, XSD_SCHEMA_REQUEST)
     }

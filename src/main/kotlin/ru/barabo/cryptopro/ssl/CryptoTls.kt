@@ -79,7 +79,7 @@ object CryptoTls {
         Security.addProvider(Provider()) //JTLS
     }
 }
-private const val URL_PATH = "https://reports.nbki.ru/qbch/"
+private const val URL_PATH =  "https://ssp.nbki.ru/qbch/" //"https://reports.nbki.ru/qbch/"
 
 private const val SIGN_KEY_ALIAS = "pfx-4b3c7fc4-1c87-2baa-5f38-60d054953ad1 - Copy - Copy"
 

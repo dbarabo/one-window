@@ -27,6 +27,17 @@ class ClientRequestService : StoreFilterService<ClientRequest>(AfinaOrm, ClientR
         return XmlBuilder.xmlToString(request)
     }
 
+    fun checkClient(clientId: Number) {
+        checkClient(getClientById(clientId))
+    }
+
+    private fun getClientById(clientId: Number): ClientRequest {
+        this.clientId = clientId.toLong()
+        initData()
+
+        return selectedEntity()!!
+    }
+
 
     private fun checkClient(client: ClientRequest) {
 
@@ -42,7 +53,7 @@ class ClientRequestService : StoreFilterService<ClientRequest>(AfinaOrm, ClientR
         }
 
         if(client.agreeDateOut == null ) {
-            throw Exception("Датта согласия не задана или просрочена у клиента id=${client.id}")
+            throw Exception("Дата согласия не задана или просрочена у клиента id=${client.id}")
         }
     }
 }

@@ -3,7 +3,6 @@ package ru.barabo.onewin.client.entity
 import org.hibernate.annotations.Loader
 import org.hibernate.annotations.NamedNativeQuery
 import javax.persistence.Entity
-import javax.persistence.Table
 
 @Entity
 //@Table(name = "CLIENT", schema = "od")
