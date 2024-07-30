@@ -3,12 +3,17 @@ package ru.barabo.crypto
 import java.io.File
 
 import org.jasypt.util.text.BasicTextEncryptor
+import org.slf4j.LoggerFactory
 
-private val JAR_FOLDER = File(MasterKey::class.java.protectionDomain.codeSource.location.path).parentFile.path
+val JAR_FOLDER = System.getProperty("user.dir") //MasterKey::class.java.protectionDomain.codeSource.location.path
 
 private val LIB_FOLDER = "$JAR_FOLDER/lib"
 
 object MasterKey {
+
+
+
+    private val logger = LoggerFactory.getLogger(CryptoPro::class.java)!!
 
     private lateinit var textEncryptor: BasicTextEncryptor
 
@@ -56,15 +61,25 @@ object MasterKey {
 
     private fun findMasterLib(): File? {
 
+        if(MASTER_FILE.exists()) return MASTER_FILE
+
         var dirLib = MASTER_FILE
 
+        logger.error("dirLib=$dirLib")
+
         do {
+
             dirLib = dirLib.parentFile
 
-            val libDir = File("${dirLib.path}/lib")
+
+            logger.error("dirLib.absolutePath=${dirLib.absolutePath}")
+
+            val libDir = File("${dirLib.absolutePath}/lib")
+
+            logger.error("libDir=${libDir.absolutePath}")
 
             if(libDir.exists() ) {
-                return File("${libDir.path}/$MASTER_FILENAME")
+                return File("${libDir.absolutePath}/$MASTER_FILENAME")
             }
         } while (!libDir.exists())
 

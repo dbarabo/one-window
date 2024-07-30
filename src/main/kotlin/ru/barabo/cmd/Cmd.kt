@@ -1,6 +1,7 @@
 package ru.barabo.cmd
 
 import org.slf4j.LoggerFactory
+import ru.barabo.crypto.JAR_FOLDER
 import java.io.*
 import java.nio.charset.Charset
 import java.util.*
@@ -120,8 +121,6 @@ object Cmd {
 
         return temp
     }
-
-    val JAR_FOLDER = File(Cmd::class.java.protectionDomain.codeSource.location.path).parentFile.path
 
     val LIB_FOLDER = "$JAR_FOLDER/lib"
 
