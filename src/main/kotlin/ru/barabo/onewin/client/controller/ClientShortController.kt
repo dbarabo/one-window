@@ -1,5 +1,6 @@
 package ru.barabo.onewin.client.controller
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,6 +17,8 @@ class ClientShortController(private val clientShortRepository: ClientShortReposi
                             private val bkiInfoRepository: BkiInfoRepository
 ) {
 
+    private val logger = LoggerFactory.getLogger(ClientShortController::class.java)
+
     @GetMapping("/clients")
     fun getClients(): Iterable<ClientShort> {
         return clientShortRepository.findClientShorts()
@@ -23,18 +26,21 @@ class ClientShortController(private val clientShortRepository: ClientShortReposi
 
     @GetMapping("/infobki/{id}")
     fun getBkiInfo(@PathVariable("id") id: Long): Iterable<BkiInfo> {
+        logger.error("getBkiInfo=$id")
         return bkiInfoRepository.retrieveInfo(id)
     }
 
     @PutMapping("/clients/{id}")
     fun sendRequest(@PathVariable("id") id: Long): ResponseEntity<String> {
 
+        return ResponseEntity.status(HttpStatus.OK).body("")
+        /*
         return try {
             HttpClient.requestAndAnswer(id, isOneWinRequest = true)
 
             ResponseEntity.status(HttpStatus.OK).body("")
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
-        }
+        }*/
     }
 }

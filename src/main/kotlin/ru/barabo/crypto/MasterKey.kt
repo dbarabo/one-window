@@ -11,8 +11,6 @@ private val LIB_FOLDER = "$JAR_FOLDER/lib"
 
 object MasterKey {
 
-
-
     private val logger = LoggerFactory.getLogger(CryptoPro::class.java)!!
 
     private lateinit var textEncryptor: BasicTextEncryptor

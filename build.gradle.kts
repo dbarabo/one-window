@@ -1,6 +1,7 @@
 plugins {
-    id("org.springframework.boot") version "2.7.5"
-    id("io.spring.dependency-management") version "1.0.12.RELEASE"
+    id("org.springframework.boot") version "2.7.18" //"3.1.12"
+    id("io.spring.dependency-management") version "1.1.6"
+    //id("io.spring.security.release") version "1.0.3"
 
     kotlin("jvm") version "1.9.24"
     kotlin("plugin.spring") version "1.9.24"
@@ -8,7 +9,7 @@ plugins {
 }
 
 group = "ru.barabo"
-version = "1.0-SNAPSHOT"
+//version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -60,20 +61,32 @@ dependencies {
 
     implementation("com.github.dbarabo:dbjdb:0.9.10")
 
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    /*implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")*/
     implementation("org.springframework.boot:spring-boot-starter-logging")
 
+
+    implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.18")
+    implementation("org.springframework.boot:spring-boot-starter-web:2.7.18")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.18")
+    implementation("org.springframework.boot:spring-boot-starter-data-ldap:2.7.18")
+    implementation("org.springframework.boot:spring-boot-starter-security:2.7.18")
+
+    implementation("org.springframework.security:spring-security-web:5.8.13")
+    implementation("org.springframework.security:spring-security-core:5.8.13")
+    implementation("org.springframework.security:spring-security-ldap:5.8.13")
+    implementation("org.springframework.security:spring-security-data:5.8.13")
+    implementation("org.springframework.ldap:spring-ldap-core:2.4.1")
+
+    implementation("com.unboundid:unboundid-ldapsdk:6.0.11") //пусто
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+    //testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-
+    implementation("org.apache.directory.api:api-all:2.1.7")
 
     testImplementation(kotlin("test"))
 }

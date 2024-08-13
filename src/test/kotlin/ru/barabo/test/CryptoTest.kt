@@ -1,9 +1,9 @@
 package ru.barabo.test
 
+import ch.qos.logback.classic.BasicConfigurator
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.afina.AfinaConnect
-import ru.barabo.crypto.MasterKey
 import ru.barabo.onewin.http.HttpClient
 import ru.barabo.onewin.http.RESPONSE_FILE_NAME
 import ru.barabo.onewin.service.AnswerService
@@ -20,6 +20,7 @@ import java.io.InputStreamReader
 class CryptoTest {
 
     private val logger = LoggerFactory.getLogger(CryptoTest::class.java)
+
 
 
     //@Test
