@@ -24,13 +24,16 @@ import javax.servlet.http.HttpSession
 class AuthenticationTokenFilter(var customUserDetailsService: CustomUserDetailsService,
                                 var authenticationProvider: AuthenticationProvider) : UsernamePasswordAuthenticationFilter() {
 
-    private val logger = LoggerFactory.getLogger(AuthenticationTokenFilter::class.java)
+    private val log = LoggerFactory.getLogger(AuthenticationTokenFilter::class.java)
 
     @Throws(IOException::class, ServletException::class)
     @CrossOrigin
     override fun doFilter(request: ServletRequest, response: ServletResponse?, chain: FilterChain) {
         val httpRequest = request as HttpServletRequest
         val authToken = httpRequest.getHeader("Authorization")
+
+        log.error("httpRequest.remoteHost=${httpRequest.remoteHost}")
+        log.error("httpRequest.remoteAddr=${httpRequest.remoteAddr}")
 
         val userDetails = customUserDetailsService.checkLdapAuth(authToken, httpRequest.remoteHost)
 

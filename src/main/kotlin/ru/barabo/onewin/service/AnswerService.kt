@@ -7,7 +7,9 @@ import ru.barabo.db.SessionSetting
 import ru.barabo.onewin.xml.answer.KBkiSource
 import ru.barabo.onewin.xml.answer.Loan
 import ru.barabo.onewin.xml.answer.PayInfoXml
+import ru.barabo.onewin.xml.request.RequestXml
 import ru.barabo.onewin.xml.request.xmlDateToLocal
+import ru.barabo.onewin.xml.result.ResultXml
 import java.math.BigDecimal
 import java.sql.Timestamp
 import java.time.LocalDate
@@ -35,6 +37,26 @@ object AnswerService {
             throw Exception(e)
         }
         AfinaQuery.commitFree(session)
+    }
+
+    fun saveError(idClient: Number, uuidResponse: String, requestXml: RequestXml, errorWithCode: ResultXml): Long {
+
+        val params: Array<Any?> = arrayOf(
+            idClient,
+            requestXml.uuid,
+            uuidResponse,
+            errorWithCode.ogrn?:"",
+            requestXml.typeRequest.toInt().toLong(),
+            requestXml.requestInfo.subject.fio?.fullName ?: "",
+            requestXml.requestInfo.subject.birthDayLocal?.toTimestamp(),
+            requestXml.requestInfo.subject.passport?.lineAndNumber ?: "",
+            requestXml.requestInfo.subject.passport?.dateOutLocal?.toTimestamp(),
+            errorWithCode.errorRequest?.value ?: "",
+            errorWithCode.errorRequest?.code?.toLong() ?:99L
+        )
+
+        return (AfinaQuery.execute(query=EXEC_SAVE_REQUEST, params=params, outParamTypes=intArrayOf(OracleTypes.NUMBER))
+            ?.get(0) as Number).toLong()
     }
 
     private fun saveResponseList(request: Long, bkiList: List<KBkiSource>, session: SessionSetting) {

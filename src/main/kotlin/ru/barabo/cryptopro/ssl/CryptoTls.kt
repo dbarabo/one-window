@@ -41,7 +41,7 @@ object CryptoTls {
             keyStore.load(null, null)
 
             val trustStore = KeyStore.getInstance("JKS")
-            val myKeys = FileInputStream("E:/kotlin/sert/truststore.jks")
+            val myKeys = FileInputStream("C:/store/cert/truststore.jks") //"E:/kotlin/sert/truststore.jks")
             trustStore.load(myKeys, PASSWORD)
 
             var privateKey: PrivateKey? = keyStore.getKey(SIGN_KEY_ALIAS, null) as PrivateKey

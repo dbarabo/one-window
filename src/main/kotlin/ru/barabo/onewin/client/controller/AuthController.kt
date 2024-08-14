@@ -21,19 +21,10 @@ class AuthController(var authenticationManager: AuthenticationManager,
     @PostMapping("/login")
     fun loginUser(@RequestBody username: UserName?): String { //RequestParam
 
-        logger.error("username=$username")
-        logger.error("username.username=${username?.username?:"NULL"}")
-
         val user = username?.username?.let { customUserDetailsService.findByUserName(it) }
             ?: throw UsernameNotFoundException("user $username not found")
 
-        return user.token!!
-
-//        val authorities: List<GrantedAuthority> = ArrayList<GrantedAuthority>()
-//        val authentication: Authentication = authenticationManager.authenticate(
-//            UsernamePasswordAuthenticationToken(username, password, authorities)
-//        )
-//        SecurityContextHolder.getContext().setAuthentication(authentication)
+        return user.token
     }
 }
 

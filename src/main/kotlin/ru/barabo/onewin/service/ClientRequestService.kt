@@ -13,7 +13,7 @@ class ClientRequestService : StoreFilterService<ClientRequest>(AfinaOrm, ClientR
 
     override fun selectParams(): Array<Any?> = arrayOf(clientId)
 
-    fun requestByClientId(clientId: Number, isOneWinRequest: Boolean): String {
+    fun requestByClientId(clientId: Number, isOneWinRequest: Boolean): RequestXml {
 
         this.clientId = clientId.toLong()
         initData()
@@ -22,9 +22,7 @@ class ClientRequestService : StoreFilterService<ClientRequest>(AfinaOrm, ClientR
 
         checkClient(client)
 
-        val request = RequestXml(client, isOneWinRequest)
-
-        return XmlBuilder.xmlToString(request)
+        return RequestXml(client, isOneWinRequest)
     }
 
     fun checkClient(clientId: Number) {

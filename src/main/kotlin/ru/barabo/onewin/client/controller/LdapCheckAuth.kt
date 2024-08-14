@@ -20,7 +20,7 @@ class LdapCheckAuth {
 
         val connection: LdapConnection = getConnectionAndAuth(username, password)
 
-        var fullName = ""
+        var fullName: String
 
         try {
             fullName = checkRoleOneWin(connection, username)

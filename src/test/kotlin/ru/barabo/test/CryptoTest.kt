@@ -96,7 +96,7 @@ class CryptoTest {
 
         val clientRequestService = ClientRequestService()
 
-        logger.error(clientRequestService.requestByClientId(87574360L/*486569L*/, true) )
+        //logger.error(clientRequestService.requestByClientId(87574360L/*486569L*/, true) )
 
         //file.writeText(dataFile, Charset.forName("CP1251"))
     }

@@ -11,6 +11,7 @@ import ru.barabo.cryptopro.ssl.CryptoTls
 import ru.barabo.onewin.service.AnswerService
 import ru.barabo.onewin.service.ClientRequestService
 import ru.barabo.onewin.xml.answer.PayInfoXml
+import ru.barabo.onewin.xml.request.RequestXml
 import ru.barabo.onewin.xml.request.XmlBuilder
 import ru.barabo.onewin.xml.result.ResultXml
 import java.io.DataOutputStream
@@ -39,7 +40,7 @@ object HttpClient {
 
         clientRequest().checkClient(idClient)
 
-        val fileResult = sendRequest(idClient, isOneWinRequest)
+        val (fileResult, requestXml)  = sendRequest(idClient, isOneWinRequest)
 
         val resultTicket: ResultXml? = getResultTicket(fileResult)
 
@@ -48,19 +49,54 @@ object HttpClient {
             parseFullResponse(fileResult)
             return
         }
-
         val uuiTicket = resultTicket.responseId!!.value!!
 
-        val answerFile = getAnswer(uuiTicket)
+        tryGetAnswerAndSave(uuiTicket, idClient, requestXml)
+   }
 
-        saveAnswer(idClient, answerFile)
+    private fun tryGetAnswerAndSave(uuiTicket: String, idClient: Long, requestXml: RequestXml) {
+        var count = 0
+        var ticketError: ResultXml?
+
+        do {
+            val answerFile = getAnswer(uuiTicket)
+
+            val (pay, error) = saveAnswer(idClient, answerFile)
+            if(pay != null) {
+                return
+            }
+
+            ticketError = error
+
+            count++
+            Thread.sleep(11000L)
+        } while(count < 10)
+
+        ticketError?.let { AnswerService.saveError(idClient, uuiTicket, requestXml, it) }
     }
 
-    private fun saveAnswer(idClient: Long, answerFile: File) {
+    private fun saveAnswer(idClient: Long, answerFile: File): Pair<PayInfoXml?, ResultXml?> {
 
-        val pay: PayInfoXml = XmlBuilder.loadFromFile(answerFile)
+        var pay: PayInfoXml? = null
+        var ticketError: ResultXml? = null
 
-        AnswerService.saveAnswer(idClient, pay)
+        try {
+            pay = XmlBuilder.loadFromFile(answerFile)
+
+        } catch (e: Exception) {
+            logger.error("saveAnswer", e)
+
+            try {
+                ticketError = XmlBuilder.loadFromFile(answerFile)
+            }catch (e: Exception) {
+                logger.error("saveAnswer ResultXml FAIL", e)
+                throw Exception(e)
+            }
+        }
+
+        pay?.let { AnswerService.saveAnswer(idClient, it) }
+
+        return Pair(pay, ticketError)
     }
 
 
@@ -81,7 +117,7 @@ object HttpClient {
         return responseFile
     }
 
-    private fun parseFullResponse(fileResponse: File) {
+    private fun parseFullResponse(fileResult: File) {
         // TODO
     }
 
@@ -125,9 +161,9 @@ object HttpClient {
         return responseFile
     }
 
-    fun sendRequest(idClient: Long, isOneWinRequest: Boolean): File {
+    fun sendRequest(idClient: Long, isOneWinRequest: Boolean): Pair<File, RequestXml> {
 
-        val signFile = prepareRequest(idClient, isOneWinRequest)
+        val (signFile, requestXml) = prepareRequest(idClient, isOneWinRequest)
 
         val signResponseFile = sendRequest(signFile)
 
@@ -136,7 +172,7 @@ object HttpClient {
         val responseFile =  File("${xNbkiTodayUncrypto()}/$RESPONSE_FILE_NAME-${Date().time}.xml")
         unsignXml(signResponseFile, responseFile)
 
-        return responseFile
+        return Pair(responseFile, requestXml)
     }
 
     private fun sendRequest(sendFileData: File): File {
@@ -175,11 +211,11 @@ object HttpClient {
         return responseFile
     }
 
-    private fun prepareRequest(idClient: Long, isOneWinRequest: Boolean): File {
+    private fun prepareRequest(idClient: Long, isOneWinRequest: Boolean): Pair<File, RequestXml> {
 
         val requestXml = clientRequest().requestByClientId(idClient, isOneWinRequest)
 
-        return signXml(requestXml, XSD_SCHEMA_REQUEST)
+        return Pair(signXml(XmlBuilder.xmlToString(requestXml), XSD_SCHEMA_REQUEST), requestXml)
     }
 }
 
@@ -189,4 +225,24 @@ fun xNbki() = "X:/НБКИ/".ifTest("C:/НБКИ/")
 
 fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
-fun xNbkiTodayUncrypto() = "${xNbki()}${todayFolder()}/UNCRYPTO"
+fun xNbkiTodayUncrypto() = "${xNbki()}${todayFolder()}/UNCRYPTO".existsFolder()
+
+fun String.byFolderExists(): File {
+    val folder = File(this)
+
+    if(!folder.exists()) {
+        folder.mkdirs()
+    }
+
+    return folder
+}
+
+fun String.existsFolder(): String {
+    val folder = File(this)
+
+    if(!folder.exists()) {
+        folder.mkdirs()
+    }
+
+    return this
+}

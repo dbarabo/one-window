@@ -33,14 +33,13 @@ class ClientShortController(private val clientShortRepository: ClientShortReposi
     @PutMapping("/clients/{id}")
     fun sendRequest(@PathVariable("id") id: Long): ResponseEntity<String> {
 
-        return ResponseEntity.status(HttpStatus.OK).body("")
-        /*
+
         return try {
             HttpClient.requestAndAnswer(id, isOneWinRequest = true)
 
             ResponseEntity.status(HttpStatus.OK).body("")
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
-        }*/
+        }
     }
 }
