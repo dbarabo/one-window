@@ -95,8 +95,6 @@ class LdapSecurityConfig(var customUserDetailsService: CustomUserDetailsService,
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) } //STATELESS
             .authorizeHttpRequests()
             .antMatchers("/auth/**").permitAll()
-            //.antMatchers("/api/infobki/**").permitAll()
-            //.antMatchers("/api/**").permitAll()
             .anyRequest().authenticated()
 
         http.authenticationProvider(authenticationProvider())

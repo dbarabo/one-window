@@ -116,7 +116,7 @@ data class CertificateData(val my: String, val to: String, val unsignList: List<
 
 private fun initCertByBuild(): CertificateData = baraboCertificateData()
 
-private fun baraboCertificateData(): CertificateData = CertificateData("primachenko@ptkb.ru", "ais@nbki.ru", listOf("ais@nbki.ru") )
+private fun baraboCertificateData(): CertificateData = CertificateData("tts@ptkb.ru"/*"primachenko@ptkb.ru"*/, "ais@nbki.ru", listOf("ais@nbki.ru") )
 
 
 fun unsignXml(signFile: File, unsignFile: File) {
