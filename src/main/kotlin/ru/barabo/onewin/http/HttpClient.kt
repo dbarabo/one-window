@@ -126,7 +126,7 @@ object HttpClient {
         return try {
             XmlBuilder.loadFromFile<ResultXml>(fileResult)
         }catch (e: Exception) {
-            logger.error("getResultTicket", e)
+            logger.error("getResultTicket $fileResult", e)
 
             null
         }
